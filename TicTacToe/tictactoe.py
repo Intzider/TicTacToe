@@ -94,7 +94,7 @@ def choose_location(board, mark):
     location = int
     while True:
         try:
-            location = int(input(f"Choose spot to put {mark}: "))
+            location = int(input(f"Choose spot to put {mark} (1-9): "))
             if location in range(1, 10):
                 break
         except ValueError as e:

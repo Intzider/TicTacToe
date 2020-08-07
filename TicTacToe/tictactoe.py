@@ -11,7 +11,7 @@ def main():
     current_player = players[active_player_index]
 
     # loop until there is a winner or the board is full
-    while not check_for_winner(board) or not is_board_full(board):
+    while not (check_for_winner(board) or is_board_full(board)):
         current_player = players[active_player_index]
         current_player_mark = marks[active_player_index]
 
@@ -34,7 +34,7 @@ def init_board():
 
 
 def init_players():
-    """Enter palyer names and randomly select starting player"""
+    """Enter player names and randomly select starting player"""
     players = [input("Enter player name: "), input("Enter player name: ")]
     player_1 = random.choice(players)
     player_2 = players[players.index(player_1) - 1]
@@ -72,7 +72,7 @@ def check_winning_states(rows_to_be_checked):
 
 def is_board_full(board):
     """Check if board is full - used to check if there is a tie"""
-    if None not in board:
+    if not any(None in row for row in board):
         return True
 
 

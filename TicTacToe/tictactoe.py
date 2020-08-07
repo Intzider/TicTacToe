@@ -24,8 +24,8 @@ def main():
     game_over_print(board, current_player)
 
 
-# set board to zero
 def init_board():
+    """Set board to zero"""
     return [
         [None, None, None],
         [None, None, None],
@@ -33,8 +33,8 @@ def init_board():
     ]
 
 
-# enter player names and randomly select starting player
 def init_players():
+    """Enter palyer names and randomly select starting player"""
     players = [input("Enter player name: "), input("Enter player name: ")]
     player_1 = random.choice(players)
     player_2 = players[players.index(player_1) - 1]
@@ -42,8 +42,8 @@ def init_players():
     return [player_1, player_2]
 
 
-# check after any round if there is a winner
 def check_for_winner(board):
+    """Check after any round if there is a winner"""
     # check for winner by rows
     if check_winning_states(board):
         return True
@@ -58,32 +58,31 @@ def check_for_winner(board):
         np.diagonal(board),
         np.diagonal(np.fliplr(board))
     ]
-    print(diagonals)
     if check_winning_states(diagonals):
         return True
 
 
-# helper function for checking if there is a winner
 def check_winning_states(rows_to_be_checked):
+    """Helper function for checking if there is a winner"""
     for row in rows_to_be_checked:
         mark = row[0]
         if mark and all(mark == cell for cell in row):
             return True
 
 
-# check if board is full, used to check if there is a tie
 def is_board_full(board):
+    """Check if board is full - used to check if there is a tie"""
     if None not in board:
         return True
 
 
-# announce player whose turn it is
 def announce_player(player):
+    """Announce player whose turn it is"""
     print(f"{player}, choose a field")
 
 
-# draw current state of the board
 def show_board(board):
+    """Draw current state of the board"""
     for row in board:
         for cell in row:
             cell = cell if cell is not None else "_"
@@ -91,8 +90,8 @@ def show_board(board):
         print()
 
 
-# let current player choose spot on board
 def choose_location(board, mark):
+    """Let current player choose spot on board"""
     location = int
     while True:
         try:
@@ -111,8 +110,8 @@ def choose_location(board, mark):
     print()
 
 
-# print game result along with final board state
 def game_over_print(board, current_player):
+    """Print game result along with final board state"""
     print()
     if not check_for_winner(board):
         print("The game is a tie!")

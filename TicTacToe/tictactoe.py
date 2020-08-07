@@ -1,4 +1,5 @@
 import random
+import numpy as np
 
 
 def main():
@@ -47,16 +48,17 @@ def check_for_winner(board):
     if check_winning_states(board):
         return True
 
-    # check for winner by columns | transponate board
-    flipped_board = zip(*board)
+    # check for winner by columns | transpose board
+    flipped_board = np.transpose(board)
     if check_winning_states(flipped_board):
         return True
 
     # check for winner by diagonals
     diagonals = [
-        [board[index][index] for index in [0, 1, 2]],
-        [board[0][2], board[1][1], board[2][0]],
+        np.diagonal(board),
+        np.diagonal(np.fliplr(board))
     ]
+    print(diagonals)
     if check_winning_states(diagonals):
         return True
 
@@ -97,7 +99,7 @@ def choose_location(board, mark):
             location = int(input(f"Choose spot to put {mark} (1-9): "))
             if location in range(1, 10):
                 break
-        except ValueError as e:
+        except ValueError:
             print("Spot must be between an integer between 1 and 9!")
             continue
     row, column = (location - 1) // 3, (location - 1) % 3

@@ -1,32 +1,35 @@
 import random
 import numpy as np
 
+board = []
+
 
 def main():
     # initialize all relevant parameters
-    board = init_board()
+    set_initial_board_state()
     players = init_players()
     marks = ["X", "O"]
     active_player_index = 0
     current_player = players[active_player_index]
 
     # loop until there is a winner or the board is full
-    while not (check_for_winner(board) or is_board_full(board)):
+    while not (check_for_winner() or is_board_full()):
         current_player = players[active_player_index]
         current_player_mark = marks[active_player_index]
 
         announce_player(current_player)
-        show_board(board)
-        choose_location(board, current_player_mark)
+        show_board()
+        set_location(current_player_mark)
 
         active_player_index = (active_player_index + 1) % len(players)
 
-    game_over_print(board, current_player)
+    game_over_print(current_player)
 
 
-def init_board():
+def set_initial_board_state():
     """Set board to zero"""
-    return [
+    global board
+    board = [
         [None, None, None],
         [None, None, None],
         [None, None, None],
@@ -42,7 +45,7 @@ def init_players():
     return [player_1, player_2]
 
 
-def check_for_winner(board):
+def check_for_winner():
     """Check after any round if there is a winner"""
     # check for winner by rows
     if check_winning_states(board):
@@ -70,7 +73,7 @@ def check_winning_states(rows_to_be_checked):
             return True
 
 
-def is_board_full(board):
+def is_board_full():
     """Check if board is full - used to check if there is a tie"""
     if not any(None in row for row in board):
         return True
@@ -81,7 +84,7 @@ def announce_player(player):
     print(f"{player}, choose a field")
 
 
-def show_board(board):
+def show_board():
     """Draw current state of the board"""
     for row in board:
         for cell in row:
@@ -90,8 +93,9 @@ def show_board(board):
         print()
 
 
-def choose_location(board, mark):
+def set_location(mark):
     """Let current player choose spot on board"""
+    global board
     location = int
     while True:
         try:
@@ -104,20 +108,20 @@ def choose_location(board, mark):
     row, column = (location - 1) // 3, (location - 1) % 3
     if board[row][column] is not None:
         print("Please select a valid spot!")
-        choose_location(board, mark)
+        set_location(mark)
     else:
         board[row][column] = mark
     print()
 
 
-def game_over_print(board, current_player):
+def game_over_print(current_player):
     """Print game result along with final board state"""
     print()
-    if not check_for_winner(board):
+    if not check_for_winner():
         print("The game is a tie!")
     else:
         print(f"Game over! {current_player} won with game state: ")
-    show_board(board)
+    show_board()
 
 
 if __name__ == '__main__':
